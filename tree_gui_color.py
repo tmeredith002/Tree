@@ -155,41 +155,29 @@ class TreeGUI:
             self.text.insert("end", " " * (self.height - 2) + self.trunk, "saddlebrown")
             self.text.insert("end", "\n")       
 
-    def print_tree(self, step, left_color="red", right_color="blue"):
+    def print_tree(self, step, left_color="blue", right_color="red"):
         if step > self.height:
             return
-        
+        #Determine if bottom row
+        is_bottom = (step == self.height)
+        extra_padding = -1 if (is_bottom and self.height % 2 != 0) else 0 
         # Alternate ornaments on each side
-        #Left Side
-        if step % 2 == 0 and left_color == "red": #Blue
-            self.text.insert("end", " " * (self.height - step - 1))
-            self.text.insert("end", self.orn, "blue")
-            self.text.insert("end", self.leaf, "green")
-            self.text.insert("end", self.leaf * ((step - 1) * 2), "green")
+        if step % 2 == 0:  # Left Side
+            padding = max(0, self.height - step - 1)
+            self.text.insert("end", " " * (padding + extra_padding))
+            self.text.insert("end", self.orn, left_color)
+            leaf_count = (step - 1) * 2 + 1
+            self.text.insert("end", self.leaf * leaf_count, "green")
             self.text.insert("end", "\n")
-            left_color = "blue"
-        elif step % 2 == 0 and left_color == "blue": #Red
-            self.text.insert("end", " " * (self.height - step - 1))
-            self.text.insert("end", self.orn, "red")
-            self.text.insert("end", self.leaf, "green")
-            self.text.insert("end", self.leaf * ((step - 1) * 2), "green")
+            left_color = "blue" if left_color == "red" else "red"
+        else: # Right Side
+            padding = self.height - step
+            self.text.insert("end", " " * padding)
+            leaf_count = (step - 1) * 2 + 1
+            self.text.insert("end", self.leaf * leaf_count, "green")
+            self.text.insert("end", self.orn, right_color)
             self.text.insert("end", "\n")
-            left_color = "red"
-        #Right Side
-        elif step % 2 != 0 and right_color == "blue": #Red
-            self.text.insert("end", " " * (self.height - step))
-            self.text.insert("end", self.leaf, "green")
-            self.text.insert("end", self.leaf * ((step - 1) * 2), "green")
-            self.text.insert("end", self.orn, "red")
-            self.text.insert("end", "\n")
-            right_color = "red"
-        elif step % 2 != 0 and right_color == "red": #Blue
-            self.text.insert("end", " " * (self.height - step))
-            self.text.insert("end", self.leaf, "green")
-            self.text.insert("end", self.leaf * ((step - 1) * 2), "green")
-            self.text.insert("end", self.orn, "blue")
-            self.text.insert("end", "\n")
-            right_color = "blue"
+            right_color = "blue" if right_color == "red" else "red"
        
         self.print_tree(step + 1, left_color, right_color) #Recursively print tree
 

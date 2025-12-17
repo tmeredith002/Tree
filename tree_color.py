@@ -23,22 +23,22 @@ def _print_tree(height, step, left_color="red", right_color="blue"):
     elif step % 2 != 0 and right_color == "blue": #Red
         print(BLACK_BG + (' ' * (height - step)) \
                + GREEN + ('*' * (step - 1) + ('*' * step)) \
-               + RED + '@')
+               + RED + '@' + BLACK_BG)
         right_color = "red"
     elif step % 2 != 0 and right_color == "red": #Blue
         print(BLACK_BG + (' ' * (height - step)) \
                + GREEN + ('*' * (step - 1) + ('*' * step)) \
-               + BLUE + '@')
+               + BLUE + '@' + BLACK_BG)
         right_color = "blue"
     _print_tree(height, step + 1, left_color, right_color)
 
 def print_tree(height):
-    print(BLACK_BG + (' ' * (height - 1)) + YELLOW + '$') #Print star
-    print(BLACK_BG + (' ' * (height - 1)) + GREEN + '*') #Print top
+    print(BLACK_BG + (' ' * (height - 1)) + YELLOW + '$' + BLACK_BG) #Print star
+    print(BLACK_BG + (' ' * (height - 1)) + GREEN + '*' + BLACK_BG) #Print top
     if height <= 0: return
     _print_tree(height, 2) #Recursively print tree starting at step 2
     for _ in range(math.ceil(height / 10)):
-        print(BLACK_BG + (' ' * (height - 2)) + BROWN + '[ ]') #Print trunk
+        print(BLACK_BG + (' ' * (height - 2)) + BROWN + '[ ]' + BLACK_BG) #Print trunk
     print(RESET)
 
 print_tree(int(input(RESET + 'Enter tree height: ' + BLACK_BG)))
